@@ -63,7 +63,7 @@ function Timeline() {
           <p className="text-sm text-muted-foreground">Eight weeks with Buddyguard.</p>
         </div>
 
-        <div className="rounded-3xl bg-white p-4 shadow-sm border border-border/50 h-64">
+        <div id="timeline-chart" className="rounded-3xl bg-white p-4 shadow-sm border border-border/50 h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
               <defs>
@@ -76,6 +76,14 @@ function Timeline() {
               <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={13} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} domain={[0, 10]} />
               <Tooltip contentStyle={{ borderRadius: 16, border: "none", boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }} />
+              {selectedDate && (
+                <ReferenceLine
+                  x={formatShortDate(selectedDate)}
+                  stroke="var(--color-forest)"
+                  strokeDasharray="4 4"
+                  strokeWidth={2}
+                />
+              )}
               <Area
                 type="monotone"
                 dataKey="energy"
@@ -93,6 +101,26 @@ function Timeline() {
             </AreaChart>
           </ResponsiveContainer>
         </div>
+
+        {selectedDay && (
+          <div className="rounded-2xl bg-mint p-4 space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium">{formatDate(selectedDay.date)}</p>
+              <button
+                onClick={() => setSelectedDate(null)}
+                className="text-xs text-muted-foreground hover:text-foreground"
+              >
+                Clear
+              </button>
+            </div>
+            <div className="grid grid-cols-4 gap-2 text-center">
+              <MetricPill label="Energy" value={selectedDay.energy} />
+              <MetricPill label="Stress" value={selectedDay.stress} />
+              <MetricPill label="Sleep" value={selectedDay.sleep} />
+              <MetricPill label="Walk" value={selectedDay.walking} />
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-wrap gap-2">
           {timelineEvents.map((event) => (
