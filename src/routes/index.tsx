@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Mic, ChevronRight, FolderPlus, ShieldCheck } from "lucide-react";
 import { PhoneLayout } from "@/components/PhoneLayout";
-import { logEntries, consultations, formatShortDate, patient } from "@/lib/data";
+import { consultations, formatShortDate, patient } from "@/lib/data";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -30,24 +30,16 @@ function Home() {
   useEffect(() => setNow(new Date()), []);
   const [filter, setFilter] = useState<"all" | "oncology" | "gp">("all");
 
-  const recordings = [
-    ...consultations.map((c) => ({
+  const recordings = consultations
+    .map((c) => ({
       id: c.id,
       title: c.title,
       date: c.date,
       folder: c.folder,
       meta: "12 min",
       to: "/consultation" as const,
-    })),
-    ...logEntries.map((l) => ({
-      id: l.id,
-      title: l.title,
-      date: l.date,
-      folder: l.folder,
-      meta: l.type === "quick" ? "quick log" : "2 min",
-      to: "/log" as const,
-    })),
-  ].filter((r) => filter === "all" || r.folder === filter);
+    }))
+    .filter((r) => filter === "all" || r.folder === filter);
 
   return (
     <PhoneLayout>
