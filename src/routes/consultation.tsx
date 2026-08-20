@@ -117,14 +117,16 @@ function Consultation() {
             </section>
           </div>
         ) : (
-          <div className="space-y-4 rounded-2xl border border-border/50 bg-card p-5 shadow-sm">
+          <div className="divide-y divide-border/60 rounded-2xl border border-border/50 bg-card px-5 shadow-sm">
             {consultation.transcript.map((line, lineIdx) => (
-              <div key={lineIdx} className="space-y-2">
+              <div key={lineIdx} className="space-y-1.5 py-4">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-xs font-medium text-forest">{line.time}</span>
-                  <span className="text-xs font-semibold text-foreground">{line.speaker}</span>
+                  <span className="text-[11px] font-semibold uppercase tracking-wide text-forest">
+                    {line.speaker}
+                  </span>
+                  <span className="text-[11px] tabular-nums text-muted-foreground">{line.time}</span>
                 </div>
-                <p className="text-sm leading-relaxed text-muted-foreground">
+                <p className="text-sm leading-relaxed text-foreground/85">
                   {line.terms
                     ? renderTextWithTerms(line.text, line.terms, lineIdx, activeTerm, setActiveTerm)
                     : line.text}
