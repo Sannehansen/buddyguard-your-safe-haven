@@ -37,6 +37,7 @@ const chartData = dailyEntries.map((d) => ({
 function Timeline() {
   const [investigating, setInvestigating] = useState(false);
   const [patternsVisible, setPatternsVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const handleInvestigate = () => {
     setInvestigating(true);
@@ -45,6 +46,14 @@ function Timeline() {
       setPatternsVisible(true);
     }, 1800);
   };
+
+  const handleSelectDate = (date: string) => {
+    setSelectedDate(date);
+    const chartEl = document.getElementById("timeline-chart");
+    chartEl?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const selectedDay = selectedDate ? dailyEntries.find((d) => d.date === selectedDate) : null;
 
   return (
     <PhoneLayout>
