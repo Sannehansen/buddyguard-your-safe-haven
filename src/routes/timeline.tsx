@@ -129,6 +129,18 @@ function Timeline() {
             </button>
           </div>
         )}
+
+        <section className="space-y-4 pt-2">
+          <div className="space-y-1">
+            <h2 className="font-serif text-2xl">Chronological log</h2>
+            <p className="text-sm text-muted-foreground">Newest first. Tap an entry to see where it falls on the graph.</p>
+          </div>
+          <div className="rounded-3xl bg-white shadow-sm border border-border/50 divide-y divide-border/50">
+            {chronologicalLog.map((item) => (
+              <LogListItem key={item.id} item={item} />
+            ))}
+          </div>
+        </section>
       </div>
     </PhoneLayout>
   );
