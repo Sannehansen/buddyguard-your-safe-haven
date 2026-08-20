@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PhoneLayout } from "@/components/PhoneLayout";
 import { careFolders, formatDate, dailyEntries, logEntries } from "@/lib/data";
-import { Copy, ChevronDown, ChevronUp } from "lucide-react";
+import { Copy, ChevronDown, ChevronUp, FileText, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/prep")({
