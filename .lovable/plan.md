@@ -1,39 +1,39 @@
-# Buddyguard — interaktiv patientassistent-demo
+# Buddyguard — patient companion demo (6 screens)
 
-Bygger hele prototypen fra masterprompten, men med navnet **Buddyguard** overalt hvor der stod Hearo (produktnavn, "Fortæl Buddyguard", "Buddyguard Summary", "Spørg Buddyguard", lægesamtaler osv.).
 
-## Oplevelsen
+A phone-shaped (390 × 844) interactive prototype in **English**, for Anna, 58, eight weeks into breast cancer treatment. Built from the design brief. No login, signup, onboarding, settings or profile page. No gamification anywhere — no streaks, progress bars, badges, completion percentages, or missed-day messaging. Dates always dd-mm-yyyy.
 
-En mobil-first demo af Annas forløb (brystkræft, kemo, 1. sep – 26. okt) med bottom-navigation:
+## Design language
 
-- **I dag** — rolig forside: "Godmorgen Anna", stor mikrofon-CTA "Fortæl Buddyguard", hurtigt overblik (energi, fatigue, stress, søvn, motion) og et "Buddyguard har lagt mærke til…"-kort med CTA til mønstret.
-- **Mit forløb** — scrollbar visuel tidslinje (september/oktober) med behandlinger, samtaler, fatigue, motion-start, CT-scanning, kommunemøder, magnesium. Klik på event giver detaljevisning.
-- **Spørg Buddyguard** — chat med mikrofon, tekstfelt og 7 foreslåede spørgsmål, der udløser AI-svar med grafer.
-- **Mig** — profil (Anna, 56, brystkræft), privatliv, samtykke, indstillinger.
+Calm, warm, tired-person-friendly: big type, generous white space, softly rounded cards, short sentences, no decorative icons. Two quiet folder colours carried by anything belonging to a folder: **Oncology = teal**, **GP = amber**. Serif headlines, sans body. All colours as semantic tokens.
 
-## Nøgleflows
+## Screens
 
-1. **Voice-logging**: tryk mikrofon, "Jeg lytter…" (simuleret optagelse), Buddyguard viser struktureret resultat (kommunemøde, 30 min gåtur, stress ikke angivet), Gem, ét opfølgende spørgsmål med 0–10 slider, "Tak. Jeg har gemt det." Altid "Spring over" / "Ikke relevant".
-2. **Lægesamtale**: klik på fx Kemoterapi #2 giver Buddyguard Summary med "Det vigtigste", "Næste skridt" og "Fra samtalen til Mit forløb" (motion, fatigue, behandling) samt CTA "Gem relevante oplysninger". 4 mock-samtaler (1/9, 22/9, 13/10, 23/10).
-3. **Scan dokument**: "Gem i mit forløb" med mock CT-scanning 18. september — originaldokument vist tydeligt adskilt fra "Kort fortalt" med disclaimer om AI-genereret forklaring.
-4. **AI-insights** (mock, beregnet på datasættet): motion vs. energi (6,2 vs 3,9), kemo vs. energi (før/laveste for #1–#3), kommunemøder vs. stress, og wow-momentet "Hvad går igen på mine bedste dage?" (søvn over 7 timer, motion 30+ min, stress 3 eller lavere) med CTA "Se dagene".
-5. **Demo mode**: fremhævet guidet 6-trins flow i præcis den rækkefølge fra prompten, så det kan vises hurtigt på hackathonet.
+**1. Home** — quiet check-in, not a dashboard. Today's appointment card ("Oncology follow-up · Dr. Chen · 14:00") with a Record button; one line of context from the last consultation (statement, not a task); a large, obvious microphone as the primary action; the last few log entries, small; small avatar top-right opening the sheet.
 
-## Data
+**2. Record** — timer, animated audio level meter, live transcript arriving in blocks after pauses with a "listening…" state between them, one Stop button, and the line "Your recording is safe." Nothing else.
 
-Alle 56 dagsrækker (energi, fatigue, smerter, stress, søvn, motion) og alle events lægges ind præcis som angivet, som typede konstanter. Kategorier: Sundhed / Livsstil / Livet omkring sygdommen.
+**3. Consultation** — Summary · What it means · Next steps, plus "Three things to watch" (fatigue, new medication, follow-up date). A toggle reveals the full transcript, always available and never replaced by the AI version. Medical terms in the transcript carry a dotted underline; tapping one opens an inline footnote card directly beneath that line with the word, one plain sentence, the doctor's quote with a timestamp, and a small `Ask more →` link.
 
-## Design
+**4. Log** — fifteen seconds to use. Text box with the microphone as primary action. After speaking, a confirm card: "I noted three things. Right?" listing what was understood, numbers shown as pre-filled sliders she can nudge, then [✓ Yes] and [Edit]. Sometimes one gentle follow-up ("You didn't mention the nausea — anything there?") with [Answer] and [Not today], where "Not today" reads as completely normal. A quick-log option with three sliders (energy, stress, pain) plus sleep hours. Entries below grouped by day with folder colour. No category chips, symptom tags or forms.
 
-Premium, roligt health-tech: forest green som bærende farve med sage, ivory, sand og mint. Serif til overskrifter, sans-serif til brødtekst, diskrete ikoner, bløde kort, ingen klinisk blå hospitalsæstetik. Alle farver som semantiske tokens i design-systemet.
+**5. Timeline & patterns** — a graph over eight weeks (energy plus a couple of other measures) with markers for treatments, the new medication, the start of walking, and caseworker meetings. A "What can you see?" button triggers a visible "investigating…" moment, then pattern cards: headline ("Walking ↔ energy"), the finding in plain words with real numbers ("On days you logged a walk, your energy averaged 6.2 out of 10, compared with 3.5 on days you didn't"), a prominent, readable disclaimer — "This is a possible pattern in your own records. It can't show what caused the change." — and a way to see the entries behind it.
 
-## Teknisk
+**6. Prep for the next visit** — clean, printable, slightly more formal. Period with dates and entry count; How it's been; What the doctor asked me to watch (fatigue, nausea, dizziness, each with what actually happened) as the heart of the report; Medication & changes; Possible patterns; Questions I could ask; the raw entries collapsed but visibly present. Small, muted medical codes (e.g. R53.83) beside some symptom lines. An unobtrusive "Copy as structured data" button. A folder switcher (Oncology / GP) that visibly regenerates the report from the same log.
 
-- Ren frontend-prototype — ingen backend, ingen rigtig AI. Alle "AI-svar" er beregnet ud fra demo-datasættet.
-- Ruter: `/` (I dag), `/forloeb`, `/spoerg`, `/mig` med delt layout og bottom-nav. Voice-flow, event-detaljer og dokumentvisning som overlays.
-- Mikrofonen simulerer optagelse (ingen mikrofonadgang kræves) med scripted transskription, så demoen altid virker.
-- Al AI-tekst formuleres som mulige mønstre, aldrig kausalitet eller medicinske råd.
+**7. Avatar sheet** — a small sheet, not a screen: Anna's name, age, condition, "8 weeks with Buddyguard", her two care folders, Reset demo, Delete all my data.
 
-## Ikke med i denne omgang
+## Demo data
 
-Ægte lydoptagelse/transskription, rigtig OCR af uploadede dokumenter og persistens på tværs af sessioner — kan tilføjes bagefter med Lovable Cloud.
+Eight weeks of daily entries (energy, stress, pain, sleep hours, walking minutes) shaped so the stated findings hold: walk days average 6.2 energy vs 3.5 on non-walk days. Events for treatments, the new medication start, walking becoming a habit, and caseworker meetings. One full consultation with transcript, term explanations and timestamps.
+
+## Technical
+
+- Frontend-only prototype: no backend, no real AI, no real microphone access. Recording, transcription and analysis are scripted against the demo dataset so the demo never fails on stage.
+- Routes: `/` (Home), `/record`, `/consultation`, `/log`, `/timeline`, `/prep`, inside a shared phone-frame layout with bottom navigation. The avatar sheet is an overlay.
+- Reset demo restores the seeded state; Delete all my data clears it in-session.
+- All analysis copy is phrased as possible patterns, never causation or medical advice.
+
+## Not included
+
+Real audio capture and transcription, real document OCR, and persistence across devices.
