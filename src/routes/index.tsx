@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Mic, ChevronRight } from "lucide-react";
+import { Mic, ChevronRight, FolderPlus, ShieldCheck } from "lucide-react";
 import { PhoneLayout } from "@/components/PhoneLayout";
-import { logEntries, formatShortDate, patient } from "@/lib/data";
+import { logEntries, consultations, formatShortDate, patient } from "@/lib/data";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
@@ -28,33 +28,57 @@ function Home() {
   const navigate = useNavigate();
   const [now, setNow] = useState<Date | null>(null);
   useEffect(() => setNow(new Date()), []);
+  const [filter, setFilter] = useState<"all" | "oncology" | "gp">("all");
 
-  const latest = logEntries.slice(0, 3);
+  const recordings = [
+    ...consultations.map((c) => ({
+      id: c.id,
+      title: c.title,
+      date: c.date,
+      folder: c.folder,
+      meta: "12 min",
+      to: "/consultation" as const,
+    })),
+    ...logEntries.map((l) => ({
+      id: l.id,
+      title: l.title,
+      date: l.date,
+      folder: l.folder,
+      meta: l.type === "quick" ? "quick log" : "2 min",
+      to: "/log" as const,
+    })),
+  ].filter((r) => filter === "all" || r.folder === filter);
 
   return (
     <PhoneLayout>
-      <section className="pt-2 text-center">
-        <h1 className="font-serif text-3xl text-foreground">Welcome, {patient.name}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+      <div className="flex items-center gap-2 pt-1">
+        <span className="grid h-9 w-9 place-items-center rounded-full bg-forest text-primary-foreground">
+          <ShieldCheck className="h-5 w-5" aria-hidden />
+        </span>
+        <span className="text-lg font-semibold text-foreground">Buddyguard</span>
+      </div>
+
+      <section className="pt-5 text-center">
+        <h1 className="font-serif text-3xl text-foreground">Hello, {patient.name}</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           {now
             ? now.toLocaleDateString("en-GB", {
                 weekday: "long",
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
+                day: "numeric",
+                month: "long",
               })
             : "\u00A0"}
         </p>
       </section>
 
-      <section className="mt-6">
+      <section className="mt-5">
         <div className="rounded-3xl bg-sage p-5 shadow-sm">
           <div className="flex items-center gap-3">
             <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-sage-foreground/10 text-sage-foreground">
               <Mic className="h-6 w-6" aria-hidden />
             </span>
             <p className="text-lg font-semibold text-sage-foreground">
-              Going to see the doctor?
+              Record a conversation
             </p>
           </div>
           <button
@@ -68,24 +92,53 @@ function Home() {
         </div>
       </section>
 
-      <section className="mt-8">
-        <h2 className="px-1 text-sm font-semibold text-foreground">Latest</h2>
+      <section className="mt-5 flex flex-wrap items-center gap-2">
+        {([
+          { id: "all", label: "All" },
+          { id: "oncology", label: "Oncology" },
+          { id: "gp", label: "GP" },
+        ] as const).map((chip) => (
+          <button
+            key={chip.id}
+            type="button"
+            onClick={() => setFilter(chip.id)}
+            className={`min-h-9 rounded-full px-4 text-sm font-medium transition-colors ${
+              filter === chip.id
+                ? "bg-forest text-primary-foreground"
+                : "bg-card text-foreground border border-border/60"
+            }`}
+          >
+            {chip.label}
+          </button>
+        ))}
+        <span className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-dashed border-forest/50 px-3 text-sm text-forest">
+          <FolderPlus className="h-4 w-4" aria-hidden />
+          New folder
+        </span>
+      </section>
+
+      <section className="mt-5">
+        <h2 className="px-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          Conversations
+        </h2>
         <div className="mt-3 space-y-2">
-          {latest.map((entry) => (
+          {recordings.map((entry) => (
             <Link
               key={entry.id}
-              to="/log"
+              to={entry.to}
               className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-sm border border-border/50"
             >
               <span
-                className={`h-2.5 w-2.5 shrink-0 rounded-full ${
-                  entry.folder === "oncology" ? "bg-teal" : "bg-amber"
+                className={`grid h-10 w-10 shrink-0 place-items-center rounded-full ${
+                  entry.folder === "oncology" ? "bg-teal/15 text-teal" : "bg-amber/20 text-amber"
                 }`}
-              />
+              >
+                <Mic className="h-5 w-5" aria-hidden />
+              </span>
               <span className="flex-1">
-                <span className="block text-sm font-medium">{entry.title}</span>
+                <span className="block text-sm font-medium leading-snug">{entry.title}</span>
                 <span className="block text-xs text-muted-foreground mt-0.5">
-                  {formatShortDate(entry.date)}
+                  {formatShortDate(entry.date)} · {entry.meta}
                 </span>
               </span>
               <ChevronRight className="h-5 w-5 text-muted-foreground" aria-hidden />
