@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { patient } from "@/lib/data";
 
 const navItems = [
-  { to: "/", label: "Home", icon: Home },
+  { to: "/", label: "Journal", icon: Home },
   { to: "/log", label: "Log", icon: MessageCircle },
   { to: "/chat", label: "Ask", icon: Sparkle },
   { to: "/timeline", label: "Timeline", icon: Calendar },
