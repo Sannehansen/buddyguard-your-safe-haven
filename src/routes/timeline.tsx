@@ -218,14 +218,17 @@ function eventIcon(kind: "event" | "log", icon?: string, type?: LogEntry["type"]
   }
 }
 
-function LogListItem({ item }: { item: LogListItemData }) {
+function LogListItem({ item, onSelect }: { item: LogListItemData; onSelect: (date: string) => void }) {
   const isEvent = item.kind === "event";
   const title = isEvent ? item.title : item.title;
   const subtitle = isEvent ? item.subtitle : item.notes;
   const folder = item.folder;
 
   return (
-    <div className="flex items-start gap-3 p-4">
+    <button
+      onClick={() => onSelect(item.date)}
+      className="flex w-full items-start gap-3 p-4 text-left transition-colors hover:bg-muted/40 focus:outline-none focus:bg-muted/60"
+    >
       <div
         className={cn(
           "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
@@ -241,7 +244,7 @@ function LogListItem({ item }: { item: LogListItemData }) {
         </div>
         {subtitle && <p className="text-sm text-muted-foreground line-clamp-2">{subtitle}</p>}
       </div>
-    </div>
+    </button>
   );
 }
 
