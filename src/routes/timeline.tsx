@@ -146,6 +146,67 @@ function Timeline() {
   );
 }
 
+type LogListItemData =
+  | ({ kind: "event" } & TimelineEvent)
+  | ({ kind: "log" } & LogEntry);
+
+const chronologicalLog: LogListItemData[] = [
+  ...timelineEvents.map((e) => ({ ...e, kind: "event" as const })),
+  ...logEntries.map((l) => ({ ...l, kind: "log" as const })),
+].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+function eventIcon(kind: "event" | "log", icon?: string, type?: LogEntry["type"]) {
+  const props = { className: "h-4 w-4" };
+  if (kind === "log") {
+    if (type === "quick") return <Calendar {...props} />;
+    if (type === "document") return <FileText {...props} />;
+    return <Mic {...props} />;
+  }
+  switch (icon) {
+    case "stethoscope":
+      return <Stethoscope {...props} />;
+    case "footprints":
+      return <Footprints {...props} />;
+    case "pill":
+      return <Pill {...props} />;
+    case "building":
+      return <Building2 {...props} />;
+    case "scan":
+      return <ScanLine {...props} />;
+    case "message":
+      return <MessageSquare {...props} />;
+    default:
+      return <Calendar {...props} />;
+  }
+}
+
+function LogListItem({ item }: { item: LogListItemData }) {
+  const isEvent = item.kind === "event";
+  const title = isEvent ? item.title : item.title;
+  const subtitle = isEvent ? item.subtitle : item.notes;
+  const folder = item.folder;
+
+  return (
+    <div className="flex items-start gap-3 p-4">
+      <div
+        className={cn(
+          "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+          folder === "oncology" ? "bg-teal-soft text-teal-foreground" : "bg-amber-soft text-amber-foreground"
+        )}
+      >
+        {eventIcon(item.kind, isEvent ? item.icon : undefined, !isEvent ? item.type : undefined)}
+      </div>
+      <div className="min-w-0 flex-1 space-y-0.5">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-sm font-medium truncate">{title}</p>
+          <span className="text-xs text-muted-foreground tabular-nums shrink-0">{formatDate(item.date)}</span>
+        </div>
+        {subtitle && <p className="text-sm text-muted-foreground line-clamp-2">{subtitle}</p>}
+      </div>
+    </div>
+  );
+}
+
 function WalkingEnergyCard() {
   const { walk, nonWalk } = getWalkDaysEnergy();
   return (
