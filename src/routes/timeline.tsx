@@ -122,21 +122,6 @@ function Timeline() {
           </div>
         )}
 
-        <div className="flex flex-wrap gap-2">
-          {timelineEvents.map((event) => (
-            <span
-              key={event.id}
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium ${
-                event.folder === "oncology"
-                  ? "bg-teal-soft text-teal-foreground"
-                  : "bg-amber-soft text-amber-foreground"
-              }`}
-            >
-              {event.title}
-            </span>
-          ))}
-        </div>
-
         {!patternsVisible ? (
           <button
             onClick={handleInvestigate}
