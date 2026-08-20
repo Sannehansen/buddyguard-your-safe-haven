@@ -108,9 +108,9 @@
   --mint: oklch(0.9 0.03 165);
   --mint-foreground: oklch(0.22 0.035 260);
 
-  --teal: oklch(0.45 0.11 215);
+  --teal: oklch(0.4632 0.0856 222);
   --teal-foreground: oklch(0.99 0.005 100);
-  --teal-soft: oklch(0.78 0.06 195);
+  --teal-soft: oklch(0.9207 0.0165 211);
   --amber: oklch(0.72 0.12 80);
   --amber-foreground: oklch(0.2 0.04 80);
   --amber-soft: oklch(0.94 0.05 90);
