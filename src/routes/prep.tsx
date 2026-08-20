@@ -17,10 +17,17 @@ export const Route = createFileRoute("/prep")({
 
 function Prep() {
   const [folder, setFolder] = useState<"oncology" | "gp">("oncology");
+  const [generated, setGenerated] = useState(false);
   const [showRaw, setShowRaw] = useState(false);
 
   const startDate = dailyEntries[0]!.date;
   const endDate = dailyEntries[dailyEntries.length - 1]!.date;
+
+  const handleFolderChange = (id: "oncology" | "gp") => {
+    setFolder(id);
+    setGenerated(false);
+    setShowRaw(false);
+  };
 
   return (
     <PhoneLayout>
