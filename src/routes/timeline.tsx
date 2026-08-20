@@ -175,7 +175,7 @@ function Timeline() {
           </div>
           <div className="rounded-3xl bg-white shadow-sm border border-border/50 divide-y divide-border/50">
             {chronologicalLog.map((item) => (
-              <LogListItem key={item.id} item={item} />
+              <LogListItem key={item.id} item={item} onSelect={handleSelectDate} />
             ))}
           </div>
         </section>
