@@ -41,7 +41,7 @@ function Prep() {
           {careFolders.map((f) => (
             <button
               key={f.id}
-              onClick={() => setFolder(f.id)}
+              onClick={() => handleFolderChange(f.id)}
               className={cn(
                 "flex-1 rounded-xl py-2 text-xs font-medium transition-colors",
                 folder === f.id
