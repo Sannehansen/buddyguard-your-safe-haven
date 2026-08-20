@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PhoneLayout } from "@/components/PhoneLayout";
-import { dailyEntries, timelineEvents, formatShortDate, getWalkDaysEnergy, getBestDays } from "@/lib/data";
+import { dailyEntries, timelineEvents, logEntries, formatShortDate, formatDate, getWalkDaysEnergy, getBestDays } from "@/lib/data";
+import type { Folder, LogEntry, TimelineEvent } from "@/lib/data";
 import {
   Area,
   AreaChart,
@@ -11,7 +12,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Calendar, Mic, Pill, Footprints, Building2, ScanLine, MessageSquare, Stethoscope, FileText } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/timeline")({
   component: Timeline,
