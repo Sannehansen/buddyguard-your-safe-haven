@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as LogRouteImport } from './routes/log'
 import { Route as PrepRouteImport } from './routes/prep'
@@ -19,6 +20,11 @@ import { Route as TimelineRouteImport } from './routes/timeline'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConsultationRoute = ConsultationRouteImport.update({
@@ -49,6 +55,7 @@ const TimelineRoute = TimelineRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/consultation': typeof ConsultationRoute
   '/log': typeof LogRoute
   '/prep': typeof PrepRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/consultation': typeof ConsultationRoute
   '/log': typeof LogRoute
   '/prep': typeof PrepRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat': typeof ChatRoute
   '/consultation': typeof ConsultationRoute
   '/log': typeof LogRoute
   '/prep': typeof PrepRoute
@@ -74,12 +83,15 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/consultation' | '/log' | '/prep' | '/record' | '/timeline'
+  fullPaths:
+    '/' | '/chat' | '/consultation' | '/log' | '/prep' | '/record' | '/timeline'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/consultation' | '/log' | '/prep' | '/record' | '/timeline'
+  to:
+    '/' | '/chat' | '/consultation' | '/log' | '/prep' | '/record' | '/timeline'
   id:
     | '__root__'
     | '/'
+    | '/chat'
     | '/consultation'
     | '/log'
     | '/prep'
@@ -89,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatRoute: typeof ChatRoute
   ConsultationRoute: typeof ConsultationRoute
   LogRoute: typeof LogRoute
   PrepRoute: typeof PrepRoute
@@ -103,6 +116,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/consultation': {
@@ -145,6 +165,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatRoute: ChatRoute,
   ConsultationRoute: ConsultationRoute,
   LogRoute: LogRoute,
   PrepRoute: PrepRoute,

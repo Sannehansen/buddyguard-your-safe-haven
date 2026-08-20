@@ -1,11 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Calendar, MessageCircle, FileText } from "lucide-react";
+import { Home, Calendar, MessageCircle, FileText, Sparkle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AvatarSheet } from "./AvatarSheet";
 
 const navItems = [
   { to: "/", label: "Home", icon: Home },
   { to: "/log", label: "Log", icon: MessageCircle },
+  { to: "/chat", label: "Ask", icon: Sparkle },
   { to: "/timeline", label: "Timeline", icon: Calendar },
   { to: "/prep", label: "Prep", icon: FileText },
 ];
