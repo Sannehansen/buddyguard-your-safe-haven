@@ -108,7 +108,7 @@
   --mint: oklch(0.9 0.03 165);
   --mint-foreground: oklch(0.22 0.035 260);
 
-  --teal: oklch(0.45 0.11 195);
+  --teal: oklch(0.38 0.11 195);
   --teal-foreground: oklch(0.99 0.005 100);
   --teal-soft: oklch(0.92 0.04 195);
   --amber: oklch(0.72 0.12 80);
@@ -116,7 +116,7 @@
   --amber-soft: oklch(0.94 0.05 90);
 
   --chart-1: oklch(0.42 0.08 155);
-  --chart-2: oklch(0.58 0.1 195);
+  --chart-2: oklch(0.38 0.11 195);
   --chart-3: oklch(0.72 0.12 80);
   --chart-4: oklch(0.78 0.05 150);
   --chart-5: oklch(0.9 0.03 165);
