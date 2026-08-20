@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Calendar, MessageCircle, FileText, Sparkle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { AvatarSheet } from "./AvatarSheet";
+import { patient } from "@/lib/data";
 
 const navItems = [
   { to: "/", label: "Home", icon: Home },
@@ -22,7 +22,13 @@ export function PhoneLayout({ children }: { children: React.ReactNode }) {
           <div>
             <p className="text-xs font-medium tracking-widest text-forest uppercase">Buddyguard</p>
           </div>
-          <AvatarSheet />
+          <Link
+            to="/profile"
+            aria-label="Profile"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-forest text-sm font-medium text-primary-foreground transition-colors hover:bg-forest/90"
+          >
+            {patient.name[0]}
+          </Link>
         </header>
 
         <main className="flex-1 overflow-y-auto px-5 pb-24 scrollbar-hide">
