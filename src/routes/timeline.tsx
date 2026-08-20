@@ -245,6 +245,15 @@ function LogListItem({ item }: { item: LogListItemData }) {
   );
 }
 
+function MetricPill({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-xl bg-white px-2 py-2 shadow-sm">
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="text-sm font-medium tabular-nums">{value}</p>
+    </div>
+  );
+}
+
 function WalkingEnergyCard() {
   const { walk, nonWalk } = getWalkDaysEnergy();
   return (
