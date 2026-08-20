@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { Mic, ChevronRight, HelpCircle } from "lucide-react";
+import { Mic, ChevronRight } from "lucide-react";
 import { PhoneLayout } from "@/components/PhoneLayout";
 import { logEntries, formatShortDate, patient } from "@/lib/data";
 import { useEffect, useState } from "react";
@@ -94,20 +94,6 @@ function Home() {
         </div>
       </section>
 
-      <section className="mt-6">
-        <Link
-          to="/chat"
-          className="flex w-full items-center gap-3 rounded-2xl bg-sage/60 p-4 text-left transition-colors hover:bg-sage/80"
-        >
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-card text-forest">
-            <HelpCircle className="h-5 w-5" aria-hidden />
-          </span>
-          <span className="flex-1 text-sm font-medium text-sage-foreground">
-            How does Buddyguard work?
-          </span>
-          <ChevronRight className="h-5 w-5 text-sage-foreground" aria-hidden />
-        </Link>
-      </section>
     </PhoneLayout>
   );
 }
