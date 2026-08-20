@@ -14,6 +14,7 @@ import { Route as ChatRouteImport } from './routes/chat'
 import { Route as ConsultationRouteImport } from './routes/consultation'
 import { Route as LogRouteImport } from './routes/log'
 import { Route as PrepRouteImport } from './routes/prep'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RecordRouteImport } from './routes/record'
 import { Route as TimelineRouteImport } from './routes/timeline'
 
@@ -42,6 +43,11 @@ const PrepRoute = PrepRouteImport.update({
   path: '/prep',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RecordRoute = RecordRouteImport.update({
   id: '/record',
   path: '/record',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/consultation': typeof ConsultationRoute
   '/log': typeof LogRoute
   '/prep': typeof PrepRoute
+  '/profile': typeof ProfileRoute
   '/record': typeof RecordRoute
   '/timeline': typeof TimelineRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/consultation': typeof ConsultationRoute
   '/log': typeof LogRoute
   '/prep': typeof PrepRoute
+  '/profile': typeof ProfileRoute
   '/record': typeof RecordRoute
   '/timeline': typeof TimelineRoute
 }
@@ -78,16 +86,31 @@ export interface FileRoutesById {
   '/consultation': typeof ConsultationRoute
   '/log': typeof LogRoute
   '/prep': typeof PrepRoute
+  '/profile': typeof ProfileRoute
   '/record': typeof RecordRoute
   '/timeline': typeof TimelineRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/chat' | '/consultation' | '/log' | '/prep' | '/record' | '/timeline'
+    | '/'
+    | '/chat'
+    | '/consultation'
+    | '/log'
+    | '/prep'
+    | '/profile'
+    | '/record'
+    | '/timeline'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/chat' | '/consultation' | '/log' | '/prep' | '/record' | '/timeline'
+    | '/'
+    | '/chat'
+    | '/consultation'
+    | '/log'
+    | '/prep'
+    | '/profile'
+    | '/record'
+    | '/timeline'
   id:
     | '__root__'
     | '/'
@@ -95,6 +118,7 @@ export interface FileRouteTypes {
     | '/consultation'
     | '/log'
     | '/prep'
+    | '/profile'
     | '/record'
     | '/timeline'
   fileRoutesById: FileRoutesById
@@ -105,6 +129,7 @@ export interface RootRouteChildren {
   ConsultationRoute: typeof ConsultationRoute
   LogRoute: typeof LogRoute
   PrepRoute: typeof PrepRoute
+  ProfileRoute: typeof ProfileRoute
   RecordRoute: typeof RecordRoute
   TimelineRoute: typeof TimelineRoute
 }
@@ -146,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrepRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/record': {
       id: '/record'
       path: '/record'
@@ -169,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConsultationRoute: ConsultationRoute,
   LogRoute: LogRoute,
   PrepRoute: PrepRoute,
+  ProfileRoute: ProfileRoute,
   RecordRoute: RecordRoute,
   TimelineRoute: TimelineRoute,
 }
