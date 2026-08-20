@@ -217,7 +217,7 @@ function LogListItem({ item, onSelect }: { item: LogListItemData; onSelect: (dat
       <div
         className={cn(
           "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-          folder === "oncology" ? "bg-teal-soft text-teal-foreground" : "bg-amber-soft text-amber-foreground"
+                folder === "oncology" ? "bg-teal-soft text-teal" : "bg-amber-soft text-amber"
         )}
       >
         {eventIcon(item.kind, isEvent ? item.icon : undefined, !isEvent ? item.type : undefined)}
