@@ -7,6 +7,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -36,6 +37,7 @@ const chartData = dailyEntries.map((d) => ({
 function Timeline() {
   const [investigating, setInvestigating] = useState(false);
   const [patternsVisible, setPatternsVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const handleInvestigate = () => {
     setInvestigating(true);
@@ -45,6 +47,14 @@ function Timeline() {
     }, 1800);
   };
 
+  const handleSelectDate = (date: string) => {
+    setSelectedDate(date);
+    const chartEl = document.getElementById("timeline-chart");
+    chartEl?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const selectedDay = selectedDate ? dailyEntries.find((d) => d.date === selectedDate) : null;
+
   return (
     <PhoneLayout>
       <div className="space-y-6 pt-2 pb-8">
@@ -53,7 +63,7 @@ function Timeline() {
           <p className="text-sm text-muted-foreground">Eight weeks with Buddyguard.</p>
         </div>
 
-        <div className="rounded-3xl bg-white p-4 shadow-sm border border-border/50 h-64">
+        <div id="timeline-chart" className="rounded-3xl bg-white p-4 shadow-sm border border-border/50 h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
               <defs>
@@ -66,6 +76,14 @@ function Timeline() {
               <XAxis dataKey="date" tick={{ fontSize: 10 }} interval={13} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} domain={[0, 10]} />
               <Tooltip contentStyle={{ borderRadius: 16, border: "none", boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }} />
+              {selectedDate && (
+                <ReferenceLine
+                  x={formatShortDate(selectedDate)}
+                  stroke="var(--color-forest)"
+                  strokeDasharray="4 4"
+                  strokeWidth={2}
+                />
+              )}
               <Area
                 type="monotone"
                 dataKey="energy"
@@ -83,6 +101,26 @@ function Timeline() {
             </AreaChart>
           </ResponsiveContainer>
         </div>
+
+        {selectedDay && (
+          <div className="rounded-2xl bg-mint p-4 space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium">{formatDate(selectedDay.date)}</p>
+              <button
+                onClick={() => setSelectedDate(null)}
+                className="text-xs text-muted-foreground hover:text-foreground"
+              >
+                Clear
+              </button>
+            </div>
+            <div className="grid grid-cols-4 gap-2 text-center">
+              <MetricPill label="Energy" value={selectedDay.energy} />
+              <MetricPill label="Stress" value={selectedDay.stress} />
+              <MetricPill label="Sleep" value={selectedDay.sleep} />
+              <MetricPill label="Walk" value={selectedDay.walking} />
+            </div>
+          </div>
+        )}
 
         <div className="flex flex-wrap gap-2">
           {timelineEvents.map((event) => (
@@ -137,7 +175,7 @@ function Timeline() {
           </div>
           <div className="rounded-3xl bg-white shadow-sm border border-border/50 divide-y divide-border/50">
             {chronologicalLog.map((item) => (
-              <LogListItem key={item.id} item={item} />
+              <LogListItem key={item.id} item={item} onSelect={handleSelectDate} />
             ))}
           </div>
         </section>
@@ -180,14 +218,17 @@ function eventIcon(kind: "event" | "log", icon?: string, type?: LogEntry["type"]
   }
 }
 
-function LogListItem({ item }: { item: LogListItemData }) {
+function LogListItem({ item, onSelect }: { item: LogListItemData; onSelect: (date: string) => void }) {
   const isEvent = item.kind === "event";
   const title = isEvent ? item.title : item.title;
   const subtitle = isEvent ? item.subtitle : item.notes;
   const folder = item.folder;
 
   return (
-    <div className="flex items-start gap-3 p-4">
+    <button
+      onClick={() => onSelect(item.date)}
+      className="flex w-full items-start gap-3 p-4 text-left transition-colors hover:bg-muted/40 focus:outline-none focus:bg-muted/60"
+    >
       <div
         className={cn(
           "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
@@ -203,6 +244,15 @@ function LogListItem({ item }: { item: LogListItemData }) {
         </div>
         {subtitle && <p className="text-sm text-muted-foreground line-clamp-2">{subtitle}</p>}
       </div>
+    </button>
+  );
+}
+
+function MetricPill({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-xl bg-white px-2 py-2 shadow-sm">
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="text-sm font-medium tabular-nums">{value}</p>
     </div>
   );
 }
